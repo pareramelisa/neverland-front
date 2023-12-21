@@ -97,6 +97,7 @@ export default function LoginForm() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          width: "100vw",
         }}
       >
         <Image src={Neverland} alt="neverland" width={200} height={200} />
