@@ -13,7 +13,7 @@ import { userRegister } from "@/api/user";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, useFormik } from "formik";
-import { useMediaQuery } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 function Copyright(props) {
   return (
     <Typography
