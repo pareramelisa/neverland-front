@@ -6,6 +6,8 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import Neverland from "@/../public/neverland.svg";
 import Onda from "@/../public/ondaLogin.svg";
 import Image from "next/image";
@@ -14,6 +16,11 @@ import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { Formik, useFormik } from "formik";
 import { CircularProgress, useMediaQuery } from "@mui/material";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function Copyright(props) {
   return (
     <Typography
@@ -34,8 +41,17 @@ function Copyright(props) {
 
 export default function RegisterForm() {
   const [loading, setLoading] = React.useState(false);
-  const isDekstop = useMediaQuery("(min-width:600px)");
+  const [registrationSuccess, setRegistrationSuccess] = React.useState(false);
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const router = useRouter();
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setRegistrationSuccess(false);
+  };
+
   const handleSubmit = async (values) => {
     setLoading(true);
     const input = {
@@ -45,7 +61,11 @@ export default function RegisterForm() {
     try {
       const res = await userRegister(input);
       if (res) {
-        router.push("/login");
+        setRegistrationSuccess(true);
+        setTimeout(() => {
+          setRegistrationSuccess(false);
+          router.push("/login");
+        }, 3000);
       } else {
         throw new Error("Error al enviar");
       }
@@ -66,8 +86,17 @@ export default function RegisterForm() {
       .min(10, "Email no valido")
       .required("Email es requerido"),
     password: Yup.string("Ingresa tu contraseña")
-      .min(6, "Contraseña no valida")
-      .required("La contraseña es requerida"),
+      .min(
+        8,
+        "Contraseña no valida. Debe tener mínimo 8 caracteres, letras y numeros."
+      )
+      .matches(
+        /^(?=.*[0-9])/,
+        "La contraseña debe contener al menos un número."
+      )
+      .required(
+        "La contraseña es requerida. Debe tener mínimo 8 caracteres, letras y numeros."
+      ),
     birthday: Yup.string("Ingresa tu fecha de nacimiento")
       .max(new Date())
       .required("La fecha de nacimiento es requerida"),
@@ -89,7 +118,7 @@ export default function RegisterForm() {
 
   return (
     <>
-      {!isDekstop && (
+      {!isDesktop && (
         <Image
           src={Onda}
           alt="onda"
@@ -217,6 +246,18 @@ export default function RegisterForm() {
             </Grid>
           </Box>
         </Box>
+        <Snackbar
+          open={registrationSuccess}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <div>
+            <Alert onClose={handleClose} severity="success">
+              ¡Registrado exitosamente!
+            </Alert>
+          </div>
+        </Snackbar>
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </>

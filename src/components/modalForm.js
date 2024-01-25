@@ -33,41 +33,41 @@ const style = {
 };
 
 export default function ModalForm({
-  open,
+  open, //
   handleClose,
-  selectedBranch,
-  setBranches,
+  selectedBranch, //estado seteado con la sucursal seleccionada
+  setBranches, //estado para setear las sucursales todas
 }) {
-  const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedDate, setSelectedDate] = React.useState(null); //estado que guarda y actualiza la fecha seleccionada en el calendario
   const [loading, setLoading] = React.useState(false);
-  const [disable, setDisable] = React.useState(false);
+  const [disable, setDisable] = React.useState(false); //estado que indica si algo esta deshabilitado o no y lo actualiza
 
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState(""); //estado que muestra un mensaje y lo actualiza
 
-  const { user } = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext); //info del usuario que esta logueado en ese momento
 
   const handleSubmit = async () => {
     setLoading(true);
-    const input = {
-      date: moment(selectedDate).format("DD/MM/YYYY"),
-      userId: user.id,
-      branchId: selectedBranch.id,
+    const input = { //crea el input a partir del que se va a crear la reserva
+      date: moment(selectedDate).format("DD/MM/YYYY"), //en la propiedad date guarda la fecha seleccionada formateada 
+      userId: user.id, //en userid guarda el id del usuario logueado sacado del user context
+      branchId: selectedBranch.id, //guarda en branch id el id de la rama seleccionada que le llega x props
     };
     try {
-      const res = await createBooking(input);
-      setBranches((prevState) =>
-        prevState.map((branch) => {
-          if (branch.id === selectedBranch.id) {
+      const res = await createBooking(input); //ejecuta el post pasandole el input para que pueda crear la reserva 
+      setBranches((prevState) => //actualiza el estado branches con lo que hay en el prev state
+        prevState.map((branch) => { //mapea todas las sucursales que habia en el estado hasta entonces
+          if (branch.id === selectedBranch.id) { //si el id de la sucursal seleccionada es igual al id de la iteracion
             return {
               ...branch,
               bookings: [...branch.bookings, res],
             };
           }
-          return branch;
+          return branch; 
         })
       );
       setDisable(true);
-      setMessage("La reserva se generó con exito");
+      setMessage("La reserva se generó con exito. Podrás verla en tu perfil.");
     } catch (error) {
       setMessage(error.message || "Error al crear la reserva");
     }
@@ -81,11 +81,11 @@ export default function ModalForm({
     }, 2500);
   };
 
-  const disabledDates = (date) => {
-    return selectedBranch.bookings
-      .map((booking) => booking.date)
-      .includes(moment(date).format("DD/MM/YYYY"));
-  };
+  const disabledDates = (date) => { //funcion para deshabilitar las fechas que ya fueron seleccionadas 
+    return selectedBranch.bookings //mapea las reservas que hay en la sucursal seleccionada
+      .map((booking) => booking.date) //extrae la fecha de esas reservas
+      .includes(moment(date).format("DD/MM/YYYY")); //se fija si esa fecha ya esta repetida
+  }; 
 
   return (
     <div>
@@ -100,14 +100,14 @@ export default function ModalForm({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Selecciona la fecha de tu reserva
           </Typography>
-          <LocalizationProvider dateAdapter={AdapterMoment}>
+          <LocalizationProvider dateAdapter={AdapterMoment}> {/* adaptador que se utiliza para integrar moment con material ui */}
             <DateCalendar
-              onChange={(date) => setSelectedDate(date)}
+              onChange={(date) => setSelectedDate(date)} //cuando cambia se setea el estado con la fecha seleccionada
               disablePast
               disabled={disable}
-              value={selectedDate}
-              shouldDisableDate={disabledDates}
-              defaultValue={moment()}
+              value={selectedDate} //estado que guardo la fecha seleccionada
+              shouldDisableDate={disabledDates} //como llega a deshabilitarse?
+              defaultValue={moment()} //pone como default la fecha actual
             />
           </LocalizationProvider>
           <Stack direction={"row"} justifyContent={"space-around"}>
@@ -117,7 +117,7 @@ export default function ModalForm({
             <Button
               color="info"
               variant="contained"
-              onClick={handleSubmit}
+              onClick={handleSubmit} //le pasa esta fn para que cuando aprete resrvar s eejecute y se cree la funcion 
               disabled={disable}
             >
               {loading ? (
@@ -132,4 +132,4 @@ export default function ModalForm({
     </div>
   );
 }
-2;
+

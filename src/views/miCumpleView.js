@@ -16,19 +16,19 @@ const defaultTheme = createTheme();
 export function MiCumpleView() {
   const { user } = React.useContext(UserContext);
   const [loading, setLoading] = React.useState(false);
-  const [branches, setBranches] = React.useState([]);
+  const [branches, setBranches] = React.useState([]); //branches son todas las ramas y setBranches lo que las actualiza
 
   async function handleGetBranches() {
-    setLoading(true);
-    const res = await getAllBranches();
+    setLoading(true); //empieza cargando porque hace la peticion
+    const res = await getAllBranches(); //se trae todas las sucursales ejecutando el get 
     if (res) {
-      setBranches(res.branches);
+      setBranches(res.branches); // setea el estado branches (lo rellena) con todas las sucursales
     }
-    setLoading(false);
+    setLoading(false); //si sale todo ok deja de cargar 
   }
 
   React.useEffect(() => {
-    handleGetBranches();
+    handleGetBranches(); //se usa el useeffect para que cada vez que el user id cambie se vuelvan a cargar todas las sucursales // por que tengo que recargar todas las sucursales cada vez que cambie el usuario si son las mismas para todos?
   }, [user.id]);
 
   return (
@@ -66,7 +66,7 @@ export function MiCumpleView() {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Stack justifyContent={"center"} alignContent={"center"}>
             {!loading ? (
-              <BranchsMap branches={branches} setBranches={setBranches} />
+              <BranchsMap branches={branches} setBranches={setBranches} /> //ejecuta el componente que tiene el mapa y le pasa las sucursales por props
             ) : (
               <Stack
                 direction={"row"}

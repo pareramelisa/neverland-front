@@ -41,7 +41,7 @@ export default function NextBooking() {
   return (
     <Paper
       elevation={12}
-      sx={{ height: "auto", width: "90%", backgroundColor: "#853AB6", p: 4 }}
+      sx={{ height: "auto", width: "90%", background: "linear-gradient(135deg, #DD4EAE, #8360AA)", p: 4, borderRadius: 5 }}
       variant="elevation"
     >
       {loading ? (
