@@ -28,11 +28,11 @@ export default function MyCards() {
           <CircularProgress />
         </Stack>
       ) : (
-        <Stack direction={"column"} alignItems="center">
+        <Stack direction={"column"} alignItems="flex-start">
           <Typography variant="h5" color={"black"} sx={{ marginBottom: 2, textAlign: "left" }}>
             Mis tarjetas
           </Typography>
-          <Stack direction={"row"} gap={2} alignItems="center">
+          <Stack direction={"row"} gap={2} alignItems="flex-start">
             <Image
               src={CardRed}
               alt="card red"

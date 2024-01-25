@@ -139,7 +139,7 @@ export default function MiPerfil() {
                 {user.Bookings?.map((booking) => (
                   <TableRow key={booking.id}>
                     <TableCell>{booking.date}</TableCell>
-                    <TableCell>{booking.Branches?.[0]?.address}</TableCell>
+                    <TableCell>{booking.Branches?.[0]?.adress}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

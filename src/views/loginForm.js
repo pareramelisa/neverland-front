@@ -144,7 +144,7 @@ export default function LoginForm() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, borderRadius: 5, boxShadow: 10 }}
+            sx={{ mt: 3, mb: 2, borderRadius: 5, boxShadow: 10, background: "linear-gradient(135deg, #DD4EAE, #8360AA)" }}
           >
             {loading ? <CircularProgress color="secondary" /> : "Ingresar"}
           </Button>

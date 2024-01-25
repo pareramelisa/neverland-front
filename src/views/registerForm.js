@@ -233,7 +233,7 @@ export default function RegisterForm() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, background: "linear-gradient(135deg, #DD4EAE, #8360AA)" }}
             >
               {loading ? <CircularProgress color="secondary" /> : "Registrarse"}
             </Button>
